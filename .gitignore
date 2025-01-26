@@ -1,2 +1,4 @@
-assets/
+assets/*
+assets/**
+!assets/default_gtp.cfg
 .DS_Store
