@@ -1,0 +1,22 @@
+services:
+  katago:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hanxu1995/katago-tensorrt-ssh
+    container_name: katago-tensorrt-ssh
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "2222:22"
+    volumes:
+      - "./assets:/app/assets:ro"
+    stdin_open: true
+    tty: true
+    command: ["/app/start.sh"]
