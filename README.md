@@ -10,7 +10,7 @@
 
 * 支持TensorRT的英伟达显卡
 * 安装Docker
-* 从[神经网络下载链接](https://katagotraining.org/networks)下载合适的神经网络，例如kata1-b28c512nbt-s8032072448-d4548958859.bin.gz。
+* 从[神经网络下载链接](https://katagotraining.org/networks)下载合适的神经网络，例如kata1-b28c512nbt-s8032072448-d4548958859.bin.gz
 * （可选、推荐）安装图形界面，例如Lizzieyzy
 * （可选）配置自己的cfg文件
 
@@ -38,4 +38,46 @@ docker compose up -d
 灵感来自于[Darkness4/katago-docker](https://github.com/Darkness4/katago-docker)。
 
 ## 协议
+MIT
+
+# katago-tensorrt-ssh
+
+A Docker container that runs Katago with TensorRT, has SSH set up. Great for remote engine!
+
+[Project Docker Link](https://hub.docker.com/r/hanxu1995/katago-tensorrt-ssh)
+
+## Usage
+
+### Prerequisites
+
+* Nvidia GPU that supports TensorRT
+* Docker installed
+* Download a network from [Network download link](https://katagotraining.org/networks), such as kata1-b28c512nbt-s8032072448-d4548958859.bin.gz
+* (Optional, recommended) Set up a GUI such as Lizzieyzy
+* (Optional) Set up a custom cfg file
+
+### Run
+
+First, put the network file and custom cfg files (if there is one) into the "assets" folder.
+
+Then run the following command to start the Docker container. By default, the SSH username is root, password is 123, port is 2222. If changes are desired, one may edit the Dockerfile.
+
+```bash
+docker compose up -d
+```
+
+### GUI (Taking Lizzieyzy as example)
+
+In Lizzieyzy ([Lizzieyzy link](https://github.com/yzyray/lizzieyzy)), navigate to Settings-Engines, check the "Remote" box, fill in the IP field according to the Docker container environment (For example, it might be localhost if running Docker Desktop), put 123 as password and 2222 as port.
+
+In the "Command" box, put the following. Change the filenames accordingly.
+```bash
+/app/katago gtp -model /app/assets/kata1-b28c512nbt-s8032072448-d4548958859.bin.gz -config /app/assets/default_gtp.cfg
+```
+
+## Acknowledgments
+
+Inspired by [Darkness4/katago-docker](https://github.com/Darkness4/katago-docker).
+
+## License
 MIT
