@@ -4,6 +4,9 @@
 
 [项目Docker链接](https://hub.docker.com/r/hanxu1995/katago-tensorrt-ssh)
 
+## 小白友好版本（包含所有配置以及图形界面，无需大量额外操作）
+此版本包含了各种配置以及图形界面，可快速上手，如用此版本请忽略以下其它步骤。见[Releases页面](https://github.com/hanxu1995/katago-tensorrt-ssh/releases)以及[B站视频链接](https://www.bilibili.com/video/BV16uAgetEYZ/?vd_source=d974fd7333ff32e4a55f0178902b3cd9)。如果想自己动手作个性化配置请继续阅读以下说明。
+
 ## 使用说明
 
 ### 准备工作
