@@ -1,6 +1,6 @@
 # katago-tensorrt-ssh
 
-带TensorRT的Katago，同时配好了SSH的Docker容器，极大简化跑狗流程并支持远程跑狗！
+带TensorRT的Katago，同时配好了SSH的Docker容器，极大简化本地跑狗流程并支持远程跑狗！
 
 [项目Docker链接](https://hub.docker.com/r/hanxu1995/katago-tensorrt-ssh)
 
@@ -45,7 +45,7 @@ MIT
 
 # katago-tensorrt-ssh
 
-A Docker container that runs Katago with TensorRT, has SSH set up. Great for remote engine!
+A Docker container that runs Katago with TensorRT and has SSH set up. Great for both local and remote katago engine!
 
 [Project Docker Link](https://hub.docker.com/r/hanxu1995/katago-tensorrt-ssh)
 
