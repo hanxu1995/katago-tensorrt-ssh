@@ -1,14 +1,15 @@
-ARG CUDA_VERSION="12.5.1"
-ARG OS_VERSION="22.04"
-ARG TRT_VERSION="10.2.0.19-1+cuda12.5"
-ARG KATAGO_VERSION="v1.15.3"
+ARG CUDA_VERSION="12.8.1"
+ARG OS_VERSION="24.04"
+ARG TRT_VERSION="10.9.0.34-1+cuda12.8"
+ARG KATAGO_VERSION="v1.16.4"
+ARG CMAKE_VERSION="4.2.2"
 ARG SSH_PASSWORD="123"
 
 # -----------------------------------------------------------------
-FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu${OS_VERSION} as builder
+FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu${OS_VERSION} AS builder
 # -----------------------------------------------------------------
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG TRT_VERSION
 RUN version=${TRT_VERSION} && \
@@ -29,7 +30,8 @@ RUN version=${TRT_VERSION} && \
   unzip && \
   rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.29.2/cmake-3.29.2-linux-x86_64.sh -q -O /tmp/cmake-install.sh && \
+ARG CMAKE_VERSION
+RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.sh -q -O /tmp/cmake-install.sh && \
   chmod u+x /tmp/cmake-install.sh && \
   /tmp/cmake-install.sh --skip-license --prefix=/usr/local && \
   rm /tmp/cmake-install.sh
@@ -42,10 +44,10 @@ RUN cmake .. -DUSE_BACKEND=TENSORRT
 RUN make -j$(nproc)
 
 # ---------------------------------------------------------------------------
-FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu${OS_VERSION} as tensorrt-runner
+FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu${OS_VERSION} AS tensorrt-runner
 # ---------------------------------------------------------------------------
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG TRT_VERSION
 RUN version=${TRT_VERSION} && \
