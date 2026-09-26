@@ -1,5 +1,7 @@
 # 简介
-带TensorRT的Katago，同时配好了SSH的Docker容器，极大简化本地跑狗流程并支持远程跑狗！另带有小白友好版本，快速上手无需复杂配置。\
+注意：最新更新中已经移除了对TensorRT的依赖
+
+使用CUDA的Katago，同时配好了SSH的Docker容器，极大简化本地跑狗流程并支持远程跑狗！另带有小白友好版本，快速上手无需复杂配置。\
 Docker: https://hub.docker.com/r/hanxu1995/katago-tensorrt-ssh \
 Github: https://github.com/hanxu1995/katago-tensorrt-ssh \
 Gitee: https://gitee.com/han_xu/katago-tensorrt-ssh \
@@ -10,17 +12,19 @@ Docker镜像: hanxu1995/katago-tensorrt-ssh \
 ![效果图](./screenshots/result%20cn.png)
 
 # 使用条件
-* 支持TensorRT的英伟达显卡
+* 支持CUDA的英伟达显卡
 
-# 小白友好版本（包含所有配置以及图形界面，无需大量额外操作）
-此版本包含了各种配置以及图形界面，可快速上手，如用此版本请忽略以下其它步骤。见[Releases页面](https://github.com/hanxu1995/katago-tensorrt-ssh/releases)以及[B站视频链接](https://www.bilibili.com/video/BV16uAgetEYZ/?vd_source=d974fd7333ff32e4a55f0178902b3cd9)。如果想自己动手做个性化配置以及自己下载神经网络请继续阅读以下说明。
+# ~~不再建议使用：小白友好版本（包含所有配置以及图形界面，无需大量额外操作）~~
+~~此版本包含了各种配置以及图形界面，可快速上手，如用此版本请忽略以下其它步骤。见[Releases页面](https://github.com/hanxu1995/katago-tensorrt-ssh/releases)以及[B站视频链接](https://www.bilibili.com/video/BV16uAgetEYZ/?vd_source=d974fd7333ff32e4a55f0178902b3cd9)。如果想自己动手做个性化配置以及自己下载神经网络请继续阅读以下说明。~~
+
+由于许多用户反馈下载缓慢，不再建议使用此方法，建议按照以下步骤进行，操作起来并不复杂。
 
 # 使用说明
 
 ## 准备工作
 * 从[神经网络下载链接](https://katagotraining.org/networks)下载合适的神经网络，例如kata1-b28c512nbt-s8032072448-d4548958859.bin.gz。
-* （可选、推荐）安装图形界面，例如Lizzieyzy（Github链接：https://github.com/yzyray/lizzieyzy）。
-* （可选）配置自己的cfg文件。
+* （可选、强烈推荐）安装图形界面，例如Lizzieyzy-next（Github链接：https://github.com/wimi321/lizzieyzy-next）。
+* （可选）配置自己的cfg文件。这里不介绍详情。
 
 ## 运行
 ### 更新WSL并安装Docker
@@ -46,8 +50,8 @@ docker compose up -d
 
 默认配置下，SSH的用户名为root，密码为123，端口为2222。如需修改可以编辑Dockerfile。
 
-## 图形界面（以Lizzieyzy为例）
-启动Lizzieyzy（[Lizzieyzy链接](https://github.com/yzyray/lizzieyzy)）后，设置引擎时勾选“远程引擎”，IP根据Docker容器运行情况填写（例如运行Docker Desktop时可能IP应为localhost），密码填123，端口填2222。
+## 图形界面（以Lizzieyzy-next为例）
+启动Lizzieyzy-next（[Lizzieyzy-next链接](https://github.com/wimi321/lizzieyzy-next)）后，设置引擎时勾选“远程引擎”，IP根据Docker容器运行情况填写（通常填localhost即可），密码填123，端口填2222。
 
 引擎设置中的命令行中填写以下内容，可根据自身情况替换其中的文件名。
 ```bash
