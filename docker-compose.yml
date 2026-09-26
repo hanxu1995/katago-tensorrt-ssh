@@ -1,5 +1,6 @@
 services:
   katago:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile

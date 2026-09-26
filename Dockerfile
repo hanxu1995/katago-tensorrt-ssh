@@ -1,8 +1,7 @@
-ARG CUDA_VERSION="12.8.1"
-ARG OS_VERSION="24.04"
-ARG TRT_VERSION="10.9.0.34-1+cuda12.8"
-ARG KATAGO_VERSION="v1.16.4"
-ARG CMAKE_VERSION="4.2.2"
+ARG CUDA_VERSION="13.4.1"
+ARG OS_VERSION="26.04"
+ARG KATAGO_VERSION="v1.18.2"
+ARG CMAKE_VERSION="4.4.3"
 ARG SSH_PASSWORD="123"
 
 # -----------------------------------------------------------------
@@ -11,23 +10,12 @@ FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu${OS_VER
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG TRT_VERSION
-RUN version=${TRT_VERSION} && \
-  apt update && \
+RUN apt update && \
   apt install -y \
-  libnvinfer-dev=${version} \
-  libnvonnxparsers-dev=${version} \
-  libnvinfer-plugin-dev=${version} \
-  libnvinfer-headers-dev=${version} \
-  libnvinfer10=${version} \
-  libnvinfer-headers-plugin-dev=${version} \
-  libnvinfer-plugin10=${version} \
-  libnvonnxparsers10=${version} \
   wget \
   git \
   zlib1g-dev \
-  libzip-dev \
-  unzip && \
+  libzip-dev && \
   rm -rf /var/lib/apt/lists/*
 
 ARG CMAKE_VERSION
@@ -37,26 +25,21 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cm
   rm /tmp/cmake-install.sh
 
 ARG KATAGO_VERSION
-RUN git clone -b ${KATAGO_VERSION} https://github.com/lightvector/KataGo.git && mkdir -p /KataGo/cpp/build
+RUN git clone -b ${KATAGO_VERSION} https://github.com/lightvector/KataGo.git
 
-WORKDIR /KataGo/cpp/build
-RUN cmake .. -DUSE_BACKEND=TENSORRT
+WORKDIR /KataGo/cpp
+RUN cmake . -DUSE_BACKEND=CUDA
 RUN make -j$(nproc)
 
 # ---------------------------------------------------------------------------
-FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu${OS_VERSION} AS tensorrt-runner
+FROM registry-1.docker.io/nvidia/cuda:${CUDA_VERSION}-cudnn-runtime-ubuntu${OS_VERSION} AS runner
 # ---------------------------------------------------------------------------
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ARG TRT_VERSION
-RUN version=${TRT_VERSION} && \
-  apt update && \
+RUN apt update && \
   apt install -y \
   openssh-server \
-  libnvinfer10=${version} \
-  libnvonnxparsers10=${version} \
-  libnvinfer-plugin10=${version} \
   libzip-dev && \
   rm -rf /var/lib/apt/lists/*
 
@@ -68,7 +51,7 @@ RUN echo "root:${SSH_PASSWORD}" | chpasswd && \
   echo "MACs +hmac-sha1" >> /etc/ssh/sshd_config && \
   echo "HostKeyAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
 
-COPY --from=builder /KataGo/cpp/build/katago /app/
+COPY --from=builder /KataGo/cpp/katago /app/
 RUN chmod +x /app/katago
 
 RUN touch /app/start.sh && \
