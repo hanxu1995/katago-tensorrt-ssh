@@ -23,7 +23,7 @@ Docker镜像: hanxu1995/katago-tensorrt-ssh \
 
 ## 准备工作
 * 从[神经网络下载链接](https://katagotraining.org/networks)下载合适的神经网络，例如kata1-b28c512nbt-s8032072448-d4548958859.bin.gz。
-* （可选、强烈推荐）安装图形界面，例如Lizzieyzy-next（Github链接：https://github.com/wimi321/lizzieyzy-next）。
+* （可选、强烈推荐）安装图形界面，例如Lizzieyzy-next，Github链接：https://github.com/wimi321/lizzieyzy-next ，项目链接：https://goagent.top/download 。
 * （可选）配置自己的cfg文件。这里不介绍详情。
 
 ## 运行
